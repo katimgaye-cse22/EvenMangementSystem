@@ -1,0 +1,437 @@
+/* ==========================================================================
+   Campus Event Management System — design tokens & components
+   Built on Bootstrap 5 utility classes, fully reskinned (see README/notes):
+   ink navy + brass gold + parchment paper, ticket-stub event cards.
+   ========================================================================== */
+
+:root {
+  --ink:        #1B2A4A;
+  --ink-soft:   #2A3D63;
+  --parchment:  #F7F4EC;
+  --paper:      #FFFFFF;
+  --brass:      #B8862E;
+  --brass-dark: #96691E;
+  --slate:      #5B6472;
+  --pine:       #2F6E52;
+  --pine-bg:    #E7F0EA;
+  --rust:       #A8432E;
+  --rust-bg:    #F6E6E1;
+  --line:       #DDD6C4;
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+  --radius: 4px;
+  --shadow-sm: 0 1px 2px rgba(27, 42, 74, 0.08);
+  --shadow-md: 0 6px 20px rgba(27, 42, 74, 0.12);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main { flex: 1; }
+
+h1, h2, h3, .display-heading {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+a { color: var(--brass-dark); text-decoration: none; }
+a:hover { color: var(--brass); text-decoration: underline; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass-dark);
+}
+
+/* ---------------------------------------------------------------- Navbar */
+.cems-nav {
+  background: var(--ink);
+  padding: 0.9rem 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.cems-nav .navbar-brand {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--parchment) !important;
+  letter-spacing: -0.01em;
+}
+
+.cems-nav .navbar-brand .brand-mark {
+  color: var(--brass);
+}
+
+.cems-nav .nav-link {
+  color: rgba(247, 244, 236, 0.78) !important;
+  font-weight: 500;
+  padding: 0.4rem 0.9rem !important;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.cems-nav .nav-link:hover,
+.cems-nav .nav-link.active {
+  color: var(--parchment) !important;
+  border-bottom-color: var(--brass);
+  text-decoration: none;
+}
+
+.cems-nav .btn-nav-cta {
+  background: var(--brass);
+  border: none;
+  color: var(--ink);
+  font-weight: 600;
+}
+.cems-nav .btn-nav-cta:hover { background: #cf9a3c; color: var(--ink); }
+
+/* ------------------------------------------------------------- Buttons */
+.btn {
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 0.55rem 1.3rem;
+}
+
+.btn-primary {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.btn-primary:hover, .btn-primary:focus {
+  background: var(--ink-soft);
+  border-color: var(--ink-soft);
+}
+
+.btn-brass {
+  background: var(--brass);
+  border-color: var(--brass);
+  color: var(--ink);
+}
+.btn-brass:hover { background: #cf9a3c; border-color: #cf9a3c; color: var(--ink); }
+
+.btn-outline-ink {
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  background: transparent;
+}
+.btn-outline-ink:hover { background: var(--ink); color: var(--parchment); }
+
+.btn-danger-soft {
+  background: var(--rust-bg);
+  border: 1px solid var(--rust);
+  color: var(--rust);
+  font-weight: 600;
+}
+.btn-danger-soft:hover { background: var(--rust); color: #fff; }
+
+/* ------------------------------------------------------------- Forms */
+.form-label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+
+.form-control, .form-select {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.6rem 0.85rem;
+  background: var(--paper);
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--brass);
+  box-shadow: 0 0 0 3px rgba(184, 134, 46, 0.18);
+}
+
+.auth-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow-md);
+  padding: 2.5rem;
+  max-width: 440px;
+  margin: 3rem auto;
+}
+
+/* ---------------------------------------------------------- Alerts/msg */
+.form-msg {
+  border-radius: var(--radius);
+  padding: 0.7rem 1rem;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  display: none;
+}
+.form-msg.show { display: block; }
+.form-msg.error { background: var(--rust-bg); color: var(--rust); border: 1px solid var(--rust); }
+.form-msg.success { background: var(--pine-bg); color: var(--pine); border: 1px solid var(--pine); }
+
+/* --------------------------------------------------- Ticket stub card */
+/* Signature element: each event renders as a ticket stub — a dashed
+   perforation with notch cutouts separates the date block from the
+   event details, echoing a physical event ticket. */
+.ticket {
+  display: flex;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+.ticket:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+.ticket-stub {
+  position: relative;
+  flex: 0 0 108px;
+  background: var(--ink);
+  color: var(--parchment);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0.5rem;
+  font-family: var(--font-mono);
+  text-align: center;
+}
+
+.ticket-stub .stub-month {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+.ticket-stub .stub-day {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  margin: 0.15rem 0;
+}
+.ticket-stub .stub-time {
+  font-size: 0.7rem;
+  color: rgba(247, 244, 236, 0.75);
+}
+
+/* Perforation: dashed line + circular notches top/bottom, using the
+   page background color to punch through the ticket. */
+.ticket-perforation {
+  position: relative;
+  width: 0;
+  border-left: 2px dashed var(--line);
+  margin: 0.75rem 0;
+}
+.ticket-perforation::before,
+.ticket-perforation::after {
+  content: "";
+  position: absolute;
+  left: -8px;
+  width: 16px;
+  height: 16px;
+  background: var(--parchment);
+  border-radius: 50%;
+}
+.ticket-perforation::before { top: -0.75rem; }
+.ticket-perforation::after { bottom: -0.75rem; }
+
+.ticket-body {
+  flex: 1;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.ticket-body h3 {
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+.ticket-meta {
+  font-size: 0.85rem;
+  color: var(--slate);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.9rem;
+}
+
+.ticket-meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
+
+.ticket-actions {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* -------------------------------------------------------------- Badges */
+.badge-category {
+  background: var(--pine-bg);
+  color: var(--pine);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.badge-seats {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--slate);
+}
+.badge-seats.low { color: var(--rust); font-weight: 700; }
+.badge-seats.full { color: var(--rust); font-weight: 700; }
+
+/* ------------------------------------------------------------ Hero */
+.hero {
+  background: var(--ink);
+  color: var(--parchment);
+  padding: 5rem 0 4.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  right: -10%;
+  top: -30%;
+  width: 460px;
+  height: 460px;
+  border: 1px dashed rgba(184, 134, 46, 0.35);
+  border-radius: 50%;
+}
+
+.hero h1 {
+  color: var(--parchment);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  max-width: 640px;
+}
+
+.hero p.lead {
+  color: rgba(247, 244, 236, 0.82);
+  max-width: 540px;
+  font-size: 1.1rem;
+}
+
+/* --------------------------------------------------------- Dashboards */
+.stat-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1.25rem 1.4rem;
+  box-shadow: var(--shadow-sm);
+}
+.stat-card .stat-number {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.stat-card .stat-label {
+  font-size: 0.78rem;
+  color: var(--slate);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Admin table (for participants list) */
+.table-admin {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.table-admin thead th {
+  background: var(--ink);
+  color: var(--parchment);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  border: none;
+  padding: 0.75rem 1rem;
+}
+.table-admin tbody td {
+  padding: 0.7rem 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--line);
+}
+
+/* -------------------------------------------------------------- Empty */
+.empty-state {
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+  color: var(--slate);
+}
+.empty-state .empty-mark {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brass-dark);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* -------------------------------------------------------------- Footer */
+.cems-footer {
+  background: var(--ink);
+  color: rgba(247, 244, 236, 0.65);
+  padding: 1.75rem 0;
+  font-size: 0.85rem;
+  margin-top: 3rem;
+}
+
+/* ---------------------------------------------------------- Utilities */
+.pill-toggle .btn { border-radius: 999px; }
+
+.skeleton {
+  background: linear-gradient(90deg, var(--line) 25%, #ece6d4 37%, var(--line) 63%);
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.4s ease infinite;
+  border-radius: var(--radius);
+}
+@keyframes skeleton-loading {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticket, .skeleton { animation: none; transition: none; }
+}
+
+@media (max-width: 576px) {
+  .ticket { flex-direction: column; }
+  .ticket-stub { flex-direction: row; gap: 0.5rem; padding: 0.7rem 1rem; }
+  .ticket-perforation { display: none; }
+  .auth-card { padding: 1.75rem; margin: 1.5rem auto; }
+}
