@@ -76,6 +76,26 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(body);
     }
 
+    @ExceptionHandler(org.springframework.transaction.TransactionSystemException.class)
+    public ResponseEntity<Map<String, Object>> handleTransactionSystem(org.springframework.transaction.TransactionSystemException ex) {
+        Throwable cause = ex.getMostSpecificCause();
+        if (cause instanceof jakarta.validation.ConstraintViolationException cve) {
+            Map<String, String> fieldErrors = new LinkedHashMap<>();
+            for (jakarta.validation.ConstraintViolation<?> violation : cve.getConstraintViolations()) {
+                fieldErrors.put(violation.getPropertyPath().toString(), violation.getMessage());
+            }
+            String detailMsg = fieldErrors.isEmpty() ? "" : ": " + String.join("; ", fieldErrors.values());
+            Map<String, Object> body = new LinkedHashMap<>();
+            body.put("timestamp", LocalDateTime.now());
+            body.put("status", HttpStatus.BAD_REQUEST.value());
+            body.put("message", "Validation failed while saving" + detailMsg);
+            body.put("errors", fieldErrors);
+            return ResponseEntity.badRequest().body(body);
+        }
+        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                "Could not save changes: " + cause.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGeneric(Exception ex) {
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred: " + ex.getMessage());

@@ -68,7 +68,6 @@ public class Event {
     private String venue;
 
     @NotNull(message = "Event date is required")
-    @Future(message = "Event date must be in the future")
     @Column(name = "event_date", nullable = false)
     private LocalDate eventDate;
 

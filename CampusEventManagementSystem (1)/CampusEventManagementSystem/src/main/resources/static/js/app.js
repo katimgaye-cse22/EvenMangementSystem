@@ -29,7 +29,11 @@ const Api = {
     const data = contentType.includes('application/json') ? await res.json() : await res.text();
 
     if (!res.ok) {
-      const message = (data && data.message) ? data.message : 'Something went wrong. Please try again.';
+      let message = (data && data.message) ? data.message : 'Something went wrong. Please try again.';
+      if (data && data.errors && typeof data.errors === 'object' && !message.includes(':')) {
+        const details = Object.values(data.errors).join('; ');
+        if (details) message += ': ' + details;
+      }
       const err = new Error(message);
       err.status = res.status;
       err.body = data;

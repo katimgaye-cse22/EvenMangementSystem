@@ -31,7 +31,7 @@ public class EventDTO {
     private String venue;
 
     @NotNull(message = "Event date is required")
-    @Future(message = "Event date must be in the future")
+    @FutureOrPresent(message = "Event date must be today or in the future")
     private LocalDate eventDate;
 
     @NotNull(message = "Start time is required")
